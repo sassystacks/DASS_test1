@@ -13,48 +13,46 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-  multicopter simulator class
+  antenna-tracker simulator class
 */
 
 #pragma once
 
 #include "SIM_Aircraft.h"
-#include "SIM_Motor.h"
-#include "SIM_Frame.h"
-
-#include "SIM_Sprayer.h"
-#include "SIM_Gripper_Servo.h"
-#include "SIM_Gripper_EPM.h"
 
 namespace SITL {
 
 /*
-  a multicopter simulator
+  a antenna tracker simulator
  */
-class MultiCopter : public Aircraft {
+class Tracker : public Aircraft {
 public:
-    MultiCopter(const char *home_str, const char *frame_str);
-
-    /* update model by one time step */
+    Tracker(const char *home_str, const char *frame_str);
     void update(const struct sitl_input &input);
 
     /* static object creator */
     static Aircraft *create(const char *home_str, const char *frame_str) {
-        return new MultiCopter(home_str, frame_str);
+        return new Tracker(home_str, frame_str);
     }
 
-protected:
-    // calculate rotational and linear accelerations
-    void calculate_forces(const struct sitl_input &input, Vector3f &rot_accel, Vector3f &body_accel);
-    Frame *frame;
+private:
 
-    // The numbers below are the pwm output channels with "0" meaning the first output (aka RC1)
-    Sprayer sprayer{6, 7};
-    Gripper_Servo gripper{8};
-    Gripper_EPM gripper_epm{9};
+    const bool onoff = false;
+    const float yawrate = 9.0f;
+    const float pitchrate = 1.0f;
+    const float pitch_range = 45;
+    const float yaw_range = 170;
+    const float zero_yaw = 270;  // yaw direction at startup
+    const float zero_pitch = 10; // pitch at startup
+    uint64_t last_debug_us = 0;
 
-    float gross_mass() const override;
+    float pitch_input;
+    float yaw_input;
+    float yaw_current_relative;
+    float pitch_current_relative;
 
+    void update_position_servos(float delta_time, float &yaw_rate, float &pitch_rate);
+    void update_onoff_servos(float &yaw_rate, float &pitch_rate);
 };
 
-}
+} // namespace SITL
