@@ -1,4 +1,4 @@
-﻿<<<<<<< HEAD
+<<<<<<< HEAD
 ﻿Hey Curt, why the fuck are drones so difficult?
 I don’t know? Well Fuck shit Ass shit balls
 ;l;;l\
@@ -9,4 +9,6 @@ hopefully this shit works
 
 Hell ya!!!
 la la la la
+
+Assume Shark
 >>>>>>> 4b344b75c4026bcfd15366dff1f8e5364cd8f72a
